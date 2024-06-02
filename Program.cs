@@ -1,6 +1,8 @@
-using TecnicExam.Services; // Adicione esta linha para importar os namespaces dos serviços
+using TecnicExam.Services; 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseUrls("http://localhost:3000");
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IProductService, ProductService>();
