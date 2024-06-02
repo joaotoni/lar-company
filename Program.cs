@@ -1,12 +1,22 @@
-using TecnicExam.Services; 
+using TecnicExam.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 builder.WebHost.UseUrls("http://localhost:3000");
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IProductService, ProductService>();
-builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IPersonService, PersonService>();
 
 var app = builder.Build();
 
@@ -15,7 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll"); 
 
 app.UseAuthorization();
 
