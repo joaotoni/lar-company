@@ -1,5 +1,5 @@
 using MongoDB.Driver;
-using Microsoft.Extensions.Options; 
+using Microsoft.Extensions.Options;
 using TecnicExam.Models;
 using System.Collections.Generic;
 
@@ -22,7 +22,7 @@ namespace TecnicExam.Services
 
         public Person GetById(int id)
         {
-            return _persons.Find<Person>(person => person.Id == id).FirstOrDefault();
+            return _persons.Find<Person>(person => person.Id == id.ToString()).FirstOrDefault();
         }
 
         public void Add(Person person)
@@ -37,7 +37,7 @@ namespace TecnicExam.Services
 
         public void Delete(int id)
         {
-            _persons.DeleteOne(person => person.Id == id);
+            _persons.DeleteOne(person => person.Id == id.ToString());
         }
     }
 }

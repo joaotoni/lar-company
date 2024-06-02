@@ -34,38 +34,39 @@ namespace TecnicExam.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Person> Post([FromBody] PersonDTO personDto)
+        public ActionResult<Person> Post(PersonDTO personDto)
         {
             var person = new Person
             {
                 Name = personDto.Name,
                 CPF = personDto.CPF,
-                DateOfBirth = personDto.BirthDate,
-                IsActive = personDto.IsActive,
+                DateOfBirth = personDto.DateOfBirth,
+                active = personDto.active,
                 PhoneType = personDto.PhoneType,
                 PhoneNumber = personDto.PhoneNumber
             };
+
             _personService.Add(person);
             return CreatedAtAction(nameof(Get), new { id = person.Id }, person);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PersonDTO updatedPersonDto)
+        public IActionResult Put(int id, PersonDTO personDto)
         {
-            var existingPerson = _personService.GetById(id);
-            if (existingPerson == null)
+            var person = _personService.GetById(id);
+            if (person == null)
             {
                 return NotFound();
             }
 
-            existingPerson.Name = updatedPersonDto.Name;
-            existingPerson.CPF = updatedPersonDto.CPF;
-            existingPerson.DateOfBirth = updatedPersonDto.BirthDate;
-            existingPerson.IsActive = updatedPersonDto.IsActive;
-            existingPerson.PhoneType = updatedPersonDto.PhoneType;
-            existingPerson.PhoneNumber = updatedPersonDto.PhoneNumber;
+            person.Name = personDto.Name;
+            person.CPF = personDto.CPF;
+            person.DateOfBirth = personDto.DateOfBirth;
+            person.active = personDto.active;
+            person.PhoneType = personDto.PhoneType;
+            person.PhoneNumber = personDto.PhoneNumber;
 
-            _personService.Update(existingPerson);
+            _personService.Update(person);
             return NoContent();
         }
 
@@ -77,6 +78,7 @@ namespace TecnicExam.Controllers
             {
                 return NotFound();
             }
+
             _personService.Delete(id);
             return NoContent();
         }
