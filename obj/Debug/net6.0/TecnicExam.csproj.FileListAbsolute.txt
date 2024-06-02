@@ -25,3 +25,16 @@ C:\src\desafio-tecnico\lar\TecnicExam\obj\Debug\net6.0\TecnicExam.dll
 C:\src\desafio-tecnico\lar\TecnicExam\obj\Debug\net6.0\ref\TecnicExam.dll
 C:\src\desafio-tecnico\lar\TecnicExam\obj\Debug\net6.0\TecnicExam.pdb
 C:\src\desafio-tecnico\lar\TecnicExam\obj\Debug\net6.0\TecnicExam.genruntimeconfig.cache
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\AWSSDK.Core.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\DnsClient.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\SharpCompress.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\Snappier.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\ZstdSharp.dll
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+C:\src\desafio-tecnico\lar\TecnicExam\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll

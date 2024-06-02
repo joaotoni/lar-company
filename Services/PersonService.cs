@@ -1,50 +1,43 @@
+using MongoDB.Driver;
+using Microsoft.Extensions.Options; 
 using TecnicExam.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TecnicExam.Services
 {
     public class PersonService : IPersonService
     {
-        private readonly List<Person> _persons = new();
+        private readonly IMongoCollection<Person> _persons;
+
+        public PersonService(IOptions<DatabaseSettings> settings, IMongoClient mongoClient)
+        {
+            var database = mongoClient.GetDatabase(settings.Value.DatabaseName);
+            _persons = database.GetCollection<Person>(nameof(Person));
+        }
 
         public IEnumerable<Person> GetAll()
         {
-            return _persons;
+            return _persons.Find(person => true).ToList();
         }
 
         public Person GetById(int id)
         {
-            return _persons.FirstOrDefault(p => p.Id == id);
+            return _persons.Find<Person>(person => person.Id == id).FirstOrDefault();
         }
 
         public void Add(Person person)
         {
-            person.Id = _persons.Count > 0 ? _persons.Max(p => p.Id) + 1 : 1;
-            _persons.Add(person);
+            _persons.InsertOne(person);
         }
 
         public void Update(Person person)
         {
-            var existingPerson = _persons.FirstOrDefault(p => p.Id == person.Id);
-            if (existingPerson != null)
-            {
-                existingPerson.Name = person.Name;
-                existingPerson.CPF = person.CPF;
-                existingPerson.DateOfBirth = person.DateOfBirth;
-                existingPerson.IsActive = person.IsActive;
-                existingPerson.PhoneType = person.PhoneType;
-                existingPerson.PhoneNumber = person.PhoneNumber;
-            }
+            _persons.ReplaceOne(p => p.Id == person.Id, person);
         }
 
         public void Delete(int id)
         {
-            var person = _persons.FirstOrDefault(p => p.Id == id);
-            if (person != null)
-            {
-                _persons.Remove(person);
-            }
+            _persons.DeleteOne(person => person.Id == id);
         }
     }
 }
