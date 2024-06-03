@@ -17,24 +17,27 @@ namespace TecnicExam.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Person> Get()
+        public ActionResult<ApiResponse<IEnumerable<Person>>> Get()
         {
-            return _personService.GetAll();
+            var persons = _personService.GetAll();
+            var response = new ApiResponse<IEnumerable<Person>>("ok", persons);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Person> Get(int id)
+        public ActionResult<ApiResponse<Person?>> Get(string id)
         {
             var person = _personService.GetById(id);
             if (person == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<Person?>("error", null));
             }
-            return person;
+            var response = new ApiResponse<Person?>("ok", person);
+            return Ok(response);
         }
 
         [HttpPost]
-        public ActionResult<Person> Post(PersonDTO personDto)
+        public ActionResult<ApiResponse<Person>> Post(PersonDTO personDto)
         {
             var person = new Person
             {
@@ -42,41 +45,42 @@ namespace TecnicExam.Controllers
                 CPF = personDto.CPF,
                 DateOfBirth = personDto.DateOfBirth,
                 active = personDto.active,
-                PhoneType = personDto.PhoneType,
-                PhoneNumber = personDto.PhoneNumber
+                Phones = personDto.Phones // Adicionado
             };
 
             _personService.Add(person);
-            return CreatedAtAction(nameof(Get), new { id = person.Id }, person);
+            var response = new ApiResponse<Person>("ok", person);
+            return CreatedAtAction(nameof(Get), new { id = person.Id.ToString() }, response);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, PersonDTO personDto)
+        public IActionResult Put(string id, PersonDTO personDto)
         {
             var person = _personService.GetById(id);
             if (person == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<Person?>("error", null));
             }
 
-            person.Name = personDto.Name;
-            person.CPF = personDto.CPF;
-            person.DateOfBirth = personDto.DateOfBirth;
-            person.active = personDto.active;
-            person.PhoneType = personDto.PhoneType;
-            person.PhoneNumber = personDto.PhoneNumber;
+            if (person.Phones == null)
+            {
+                person.Phones = new List<PhoneDetails>();
+            }
+
+            person.Phones.AddRange(personDto.Phones);
 
             _personService.Update(person);
-            return NoContent();
+            var response = new ApiResponse<Person>("ok", person);
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             var person = _personService.GetById(id);
             if (person == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<Person?>("error", null));
             }
 
             _personService.Delete(id);

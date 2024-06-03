@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Options; // Adicione esta linha
+using Microsoft.Extensions.Options; 
 using MongoDB.Driver;
 using TecnicExam.Services;
 using TecnicExam.Models;

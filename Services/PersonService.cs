@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MongoDB.Bson;
 using Microsoft.Extensions.Options;
 using TecnicExam.Models;
 using System.Collections.Generic;
@@ -20,9 +21,13 @@ namespace TecnicExam.Services
             return _persons.Find(person => true).ToList();
         }
 
-        public Person GetById(int id)
+        public Person GetById(string id)
         {
-            return _persons.Find<Person>(person => person.Id == id.ToString()).FirstOrDefault();
+            if (!ObjectId.TryParse(id, out var objectId))
+            {
+                throw new ArgumentException("Invalid ObjectId format", nameof(id));
+            }
+            return _persons.Find<Person>(person => person.Id == id).FirstOrDefault();
         }
 
         public void Add(Person person)
@@ -35,9 +40,13 @@ namespace TecnicExam.Services
             _persons.ReplaceOne(p => p.Id == person.Id, person);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
-            _persons.DeleteOne(person => person.Id == id.ToString());
+            if (!ObjectId.TryParse(id, out var objectId))
+            {
+                throw new ArgumentException("Invalid ObjectId format", nameof(id));
+            }
+            _persons.DeleteOne(person => person.Id == id);
         }
     }
 }
